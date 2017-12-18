@@ -180,11 +180,7 @@ class AccountAssetLine(models.Model):
         self.ensure_one()
         asset = self.asset_id
         journal = asset.profile_id.journal_id
-        sequence = journal.sequence_id.with_context(
-            ir_sequence_date=depreciation_date
-        )
         move_data = {
-            'name': sequence.next_by_id(),
             'date': depreciation_date,
             'ref': self.name,
             'journal_id': journal.id,
