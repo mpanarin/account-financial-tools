@@ -1,7 +1,7 @@
 # Copyright 2018 Camptocamp SA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 
 
 class Currency(models.Model):
@@ -16,8 +16,8 @@ class Currency(models.Model):
 
     @api.multi
     def _compute_current_monthly_rate(self):
-        date = self._context.get('date') or fields.Date.today()
-        company_id = self._context.get('company_id') or self.env[
+        date = self.env.context.get('date') or fields.Date.today()
+        company_id = self.env.context.get('company_id') or self.env[
             'res.users']._get_company().id
         # the subquery selects the first rate before 'date' for the given
         # currency/company
@@ -38,7 +38,7 @@ class Currency(models.Model):
 
     @api.model
     def _get_conversion_rate(self, from_currency, to_currency):
-        monthly = self._context.get('monthly_rate')
+        monthly = self.env.context.get('monthly_rate')
         if not monthly:
             return super(Currency, self)._get_conversion_rate(from_currency,
                                                               to_currency)
@@ -63,7 +63,8 @@ class CurrencyRateMonthly(models.Model):
 
     name = fields.Date(compute='_compute_name', store=True, required=True,
                        index=True)
-    year = fields.Char(size=4, required=True, default=_default_get_year)
+    year = fields.Char(size=4, required=True,
+                       default=lambda self: self._default_get_year())
     month = fields.Selection([('01', 'January'),
                               ('02', 'February'),
                               ('03', 'March'),
@@ -76,7 +77,7 @@ class CurrencyRateMonthly(models.Model):
                               ('10', 'October'),
                               ('11', 'November'),
                               ('12', 'December')], required=True,
-                             default=_default_get_month)
+                             default=lambda self: self._default_get_month())
 
     @api.depends('year', 'month')
     def _compute_name(self):
@@ -89,7 +90,7 @@ class CurrencyRateMonthly(models.Model):
     # the second makes it stronger
     _sql_constraints = [
         ('unique_name_per_day', 'unique (name,currency_id,company_id)',
-         'Only one currency monthly rate per month allowed!'),
+         _('Only one currency monthly rate per month allowed!')),
         ('unique_year_month', 'unique (year,month,currency_id,company_id)',
-         'Only one currency monthly rate per month allowed!')
+         _('Only one currency monthly rate per month allowed!'))
     ]

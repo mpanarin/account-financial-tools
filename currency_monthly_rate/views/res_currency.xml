@@ -29,7 +29,6 @@
         <field name="model">res.currency.rate.monthly</field>
         <field name="arch" type="xml">
             <tree string="Currency Monthly Rates" editable="bottom">
-                <!--<field name="name" options="{'formatDate': 'yy-mm'}" />-->
                 <field name="year"/>
                 <field name="month"/>
                 <field name="rate"/>
@@ -48,7 +47,6 @@
                         <group>
                             <field name="year"/>
                             <field name="month"/>
-                            <!--<field name="name" />-->
                             <field name="rate"/>
                         </group>
                         <group>

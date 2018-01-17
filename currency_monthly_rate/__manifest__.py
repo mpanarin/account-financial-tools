@@ -7,7 +7,7 @@
     "license": "AGPL-3",
     "category": "Generic Modules/Accounting",
     "description": """Use monthly currency rate average""",
-    "website": "http://www.camptocamp.com",
+    "website": "https://github.com/OCA/account-financial-tools",
     "depends": ['base'],
     "data": [
         'security/res_groups.xml',
