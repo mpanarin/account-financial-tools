@@ -1,5 +1,5 @@
 # Copyright 2018 Camptocamp SA
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from odoo.tests.common import TransactionCase
 from odoo import fields

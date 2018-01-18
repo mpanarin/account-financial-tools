@@ -62,8 +62,8 @@
     <act_window
        id="act_view_currency_rates_monthly"
        name="Currency Monthly Rates"
-       view_mode='tree,form'
-       view_id='view_currency_rate_monthly_tree'
+       view_mode="tree,form"
+       view_id="view_currency_rate_monthly_tree"
        domain="[('currency_id','=', active_id)]"
        context="{'default_currency_id': active_id}"
        res_model="res.currency.rate.monthly"/>
@@ -77,6 +77,17 @@
                 <button class="oe_stat_button" string="Monthly rates" type="action" name="%(act_view_currency_rates_monthly)d"
                                 icon="fa-money" widget="statinfo" attrs="{'invisible': [('active', '=', False)]}"/>
             </xpath>
+            <field name="rate" position="after">
+                <field name="monthly_rate" />
+            </field>
+        </field>
+    </record>
+
+    <record id="view_currency_tree" model="ir.ui.view">
+        <field name="name">res.currency.tree</field>
+        <field name="model">res.currency</field>
+        <field name="inherit_id" ref="base.view_currency_tree" />
+        <field name="arch" type="xml">
             <field name="rate" position="after">
                 <field name="monthly_rate" />
             </field>

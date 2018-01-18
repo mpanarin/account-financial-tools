@@ -1,10 +1,10 @@
 # Copyright 2018 Camptocamp SA
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from odoo import models, fields, api, _
 
 
-class Currency(models.Model):
+class ResCurrency(models.Model):
     _inherit = "res.currency"
 
     monthly_rate = fields.Float(compute='_compute_current_monthly_rate',
@@ -40,14 +40,14 @@ class Currency(models.Model):
     def _get_conversion_rate(self, from_currency, to_currency):
         monthly = self.env.context.get('monthly_rate')
         if not monthly:
-            return super(Currency, self)._get_conversion_rate(from_currency,
-                                                              to_currency)
+            return super(ResCurrency, self)._get_conversion_rate(from_currency,
+                                                                 to_currency)
         from_currency = from_currency.with_env(self.env)
         to_currency = to_currency.with_env(self.env)
         return to_currency.monthly_rate / from_currency.monthly_rate
 
 
-class CurrencyRateMonthly(models.Model):
+class ResCurrencyRateMonthly(models.Model):
 
     _inherit = "res.currency.rate"
     _name = "res.currency.rate.monthly"
